@@ -63,10 +63,10 @@ class _tabcatState extends State<tabcat> {
                           child: Center(child: Text('BACKWATER FISH')),
                         ),
                         Tab(
-                          child: Text('FRESH FISH'),
+                          child: Text('FRESH WATER FISH'),
                         ),
                         Tab(
-                          child: Text('FRESH FISH'),
+                          child: Text('SEER FISH'),
                         ),
                       ]),
                 ),

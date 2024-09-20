@@ -3,6 +3,7 @@ import 'package:fish__app/singleproduct.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class cat extends StatefulWidget {
   cat({super.key});
@@ -14,6 +15,7 @@ class cat extends StatefulWidget {
 class _catState extends State<cat> {
   @override
   var gval = "";
+  double _sliderValue = 50.0;
   final List<Map<String, String>> products = [
     {
       'name': 'Catla',
@@ -179,23 +181,42 @@ class _catState extends State<cat> {
                               builder: (context) {
                                 return Container(
                                   height: 150,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  child: Column(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Filter"),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text("Filter"),
+                                          ),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            cat()));
+                                              },
+                                              child: Text("Done")),
+                                        ],
                                       ),
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        cat()));
-                                          },
-                                          child: Text("Done")),
+                                      SfSlider(
+                                        min: 0.0,
+                                        max: 100.0,
+                                        value: _sliderValue,
+                                        interval: 20,
+                                        showTicks: true,
+                                        showLabels: true,
+                                        enableTooltip: true,
+                                        minorTicksPerInterval: 1,
+                                        onChanged: (dynamic newValue) {
+                                          setState(() {
+                                            _sliderValue = newValue;
+                                          });
+                                        },
+                                      )
                                     ],
                                   ),
                                 );

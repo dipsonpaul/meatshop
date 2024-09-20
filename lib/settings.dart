@@ -1,3 +1,5 @@
+import 'package:fish__app/mycart.dart';
+import 'package:fish__app/orders.dart';
 import 'package:fish__app/seetingpages.dart';
 import 'package:fish__app/socialloginpage.dart';
 import 'package:flutter/cupertino.dart';
@@ -119,7 +121,10 @@ class settinggggg extends StatelessWidget {
                   ListTile(
                     title: Text('My Orders'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Orders()));
+                    },
                   ),
                   Divider(),
                   ListTile(
@@ -165,11 +170,30 @@ class settinggggg extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(),
               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => sociallogin()));
-                              },
+                showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                            title: Text("ARE YOU SURE ?"),
+                            content: Text("Keep Shopping with us"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                sociallogin()));
+                                  },
+                                  child: Container(
+                                    child: Text("Logout"),
+                                  )),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("Cancel"))
+                            ]));
+              },
               child: Text('LOGOUT'),
             ),
           ],

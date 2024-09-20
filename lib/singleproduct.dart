@@ -1,3 +1,4 @@
+import 'package:fish__app/mycart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -91,7 +92,12 @@ class _singeproductState extends State<singeproduct> {
           title: const Text("Seer fish"),
           backgroundColor: Colors.blue,
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.shopping_cart))
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => cart()));
+                },
+                icon: const Icon(Icons.shopping_cart))
           ],
         ),
         body: Column(
@@ -105,8 +111,8 @@ class _singeproductState extends State<singeproduct> {
                     children: [
                       Center(
                         child: Image.asset(
-                          "asset/image/pink.jpeg",
-                          fit: BoxFit.fill,
+                          "asset/image/fishcatecory2.jpeg",
+                          fit: BoxFit.none,
                         ),
                       ),
                       Container(
@@ -267,10 +273,8 @@ class _singeproductState extends State<singeproduct> {
                                               onPressed: increment2,
                                               icon: Icon(Icons.add),
                                               style: ButtonStyle(
-                                                  side:
-                                                      WidgetStatePropertyAll(
-                                                          BorderSide(
-                                                              width: 0.2))),
+                                                  side: WidgetStatePropertyAll(
+                                                      BorderSide(width: 0.2))),
                                             )
                                           ],
                                         ),

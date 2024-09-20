@@ -1,7 +1,8 @@
 import 'package:fish__app/catagerory.dart';
 import 'package:fish__app/maincat.dart';
-import 'package:fish__app/maincatogoryess.dart';
+import 'package:fish__app/tabpagesss.dart';
 import 'package:fish__app/makingpage.dart';
+import 'package:fish__app/singleproduct.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -198,27 +199,42 @@ class _FPageState extends State<FPage> {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      TextButton(onPressed: () {}, child: Text("View All")),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => tabcat()));
+                          },
+                          child: Text("View All")),
                     ],
                   ),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(15),
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8.0,
-                      mainAxisSpacing: 8.0,
+                  InkWell(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(15),
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 8.0,
+                        mainAxisSpacing: 8.0,
+                      ),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        return ProductCard(
+                          name: products[index]['name']!,
+                          price: products[index]['price']!,
+                          imageUrl: products[index]['imageUrl']!,
+                          sprice: products[index]['sprice']!,
+                        );
+                      },
                     ),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      return ProductCard(
-                        name: products[index]['name']!,
-                        price: products[index]['price']!,
-                        imageUrl: products[index]['imageUrl']!,
-                        sprice: products[index]['sprice']!,
-                      );
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => singeproduct()));
                     },
                   ),
                 ],

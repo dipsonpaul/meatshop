@@ -1,11 +1,11 @@
-import 'package:fish__app/son2.dart';
+import 'package:fish__app/apis/son2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:motion_toast/motion_toast.dart';
 
-import 'apiclass.dart';
+import 'apis/apiclass.dart';
 
 class regpage extends StatefulWidget {
   regpage({super.key});

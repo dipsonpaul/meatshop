@@ -1,7 +1,11 @@
 import 'package:fish__app/catagerory.dart';
 import 'package:fish__app/maincat.dart';
-import 'package:fish__app/maincatogoryess.dart';
+import 'package:fish__app/orders.dart';
+import 'package:fish__app/recipeee.dart';
+import 'package:fish__app/seetingpages.dart';
+import 'package:fish__app/tabpagesss.dart';
 import 'package:fish__app/mainpage.dart';
+import 'package:fish__app/mycart.dart';
 import 'package:fish__app/settings.dart';
 import 'package:fish__app/socialloginpage.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,7 +56,7 @@ class _makeState extends State<make> {
               IconButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => tabcat()));
+                        MaterialPageRoute(builder: (context) => cart()));
                   },
                   icon: Icon(Icons.shopping_cart))
             ],
@@ -76,19 +80,39 @@ class _makeState extends State<make> {
                       children: [
                         ListTile(
                           title: Text("Sea Fish"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => tabcat()));
+                          },
                         ),
                         ListTile(
                           title: Text("Backwater Fish"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => back()));
+                          },
                         ),
                         ListTile(
                           title: Text("Fresh Water Fish"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => tabcat()));
+                          },
                         ),
                         ListTile(
                           title: Text("Seer Fish"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => tabcat()));
+                          },
                         )
                       ],
                     ),
@@ -102,7 +126,12 @@ class _makeState extends State<make> {
                       children: [
                         ListTile(
                           title: Text("Order Status"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Orders()));
+                          },
                         ),
                         ListTile(
                           title: Text("Wallet"),
@@ -110,7 +139,12 @@ class _makeState extends State<make> {
                         ),
                         ListTile(
                           title: Text("Profile"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => profile()));
+                          },
                         )
                       ],
                     ),
@@ -125,7 +159,12 @@ class _makeState extends State<make> {
                     ListTile(
                         leading: Icon(Icons.menu_book),
                         title: Text("Recipes"),
-                        onTap: () {}),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Recipeee()));
+                        }),
                     ListTile(
                         leading: Icon(Icons.forum),
                         title: Text("FAQ"),
@@ -142,10 +181,29 @@ class _makeState extends State<make> {
                         leading: Icon(Icons.logout_rounded),
                         title: Text("Logout"),
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => sociallogin()));
+                          showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                      title: Text("ARE YOU SURE ?"),
+                                      content: Text("Keep Shopping with us"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          sociallogin()));
+                                            },
+                                            child: Container(
+                                              child: Text("Logout"),
+                                            )),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Text("Cancel"))
+                                      ]));
                         })
                   ],
                 )

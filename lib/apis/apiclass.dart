@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fish__app/son2.dart';
+import 'package:fish__app/apis/son2.dart';
 import 'package:flutter/material.dart';
 
 import 'apilinks.dart';

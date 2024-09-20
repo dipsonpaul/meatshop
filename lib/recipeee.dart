@@ -176,36 +176,31 @@ class RecipeScreen extends StatelessWidget {
                 height: 300,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("asset/image/sal1.jpeg"))),
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.center,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.black12, Colors.black])),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                        image: AssetImage(
+                          "asset/image/sal1.jpeg",
+                        ),
+                        fit: BoxFit.fill)),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Grilled Squid Salad',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8.0),
+                  Row(
                     children: [
-                      Text(
-                        'Grilled Squid Salad',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                      Icon(Icons.access_time_rounded),
+                      Text('  3 hr 45 min'),
+                      SizedBox(
+                        width: 20,
                       ),
-                      SizedBox(height: 8.0),
-                      Row(
-                        children: [
-                          Icon(Icons.access_time_rounded),
-                          Text('  3 hr 45 min'),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Icon(Icons.local_fire_department),
-                          Text("  480 cals")
-                        ],
-                      ),
+                      Icon(Icons.local_fire_department),
+                      Text("  480 cals")
                     ],
                   ),
-                ),
+                ],
               ),
               SizedBox(height: 16.0),
               SizedBox(height: 16.0),

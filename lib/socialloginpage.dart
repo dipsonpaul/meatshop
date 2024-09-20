@@ -15,6 +15,7 @@ class sociallogin extends StatefulWidget {
 }
 
 class _socialloginState extends State<sociallogin> {
+  bool value11 = false;
   String staus = "";
   String message = '';
   final TextEditingController usernamecontroller = TextEditingController();
@@ -147,7 +148,12 @@ class _socialloginState extends State<sociallogin> {
                           child: Row(
                             children: [
                               Checkbox(
-                                  value: false, onChanged: (bool? value) {}),
+                                  value: value11,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      value11 = value!;
+                                    });
+                                  }),
                               const Text("Remember Me")
                             ],
                           ),
