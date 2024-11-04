@@ -2,13 +2,14 @@ import 'package:fish__app/catagerory.dart';
 import 'package:fish__app/maincat.dart';
 import 'package:fish__app/orders.dart';
 import 'package:fish__app/recipeee.dart';
+import 'package:fish__app/refer.dart';
 import 'package:fish__app/seetingpages.dart';
 import 'package:fish__app/tabpagesss.dart';
 import 'package:fish__app/mainpage.dart';
 import 'package:fish__app/mycart.dart';
 import 'package:fish__app/settings.dart';
 import 'package:fish__app/socialloginpage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fish__app/wallet.dart';
 import 'package:flutter/material.dart';
 
 class make extends StatefulWidget {
@@ -88,7 +89,7 @@ class _makeState extends State<make> {
                           },
                         ),
                         ListTile(
-                          title: Text("Backwater Fish"),
+                          title: Text("Fresh Water Fish"),
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -97,7 +98,7 @@ class _makeState extends State<make> {
                           },
                         ),
                         ListTile(
-                          title: Text("Fresh Water Fish"),
+                          title: Text("Meat & poultry"),
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -106,7 +107,7 @@ class _makeState extends State<make> {
                           },
                         ),
                         ListTile(
-                          title: Text("Seer Fish"),
+                          title: Text("Others"),
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -135,7 +136,12 @@ class _makeState extends State<make> {
                         ),
                         ListTile(
                           title: Text("Wallet"),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Wallet()));
+                          },
                         ),
                         ListTile(
                           title: Text("Profile"),
@@ -155,7 +161,10 @@ class _makeState extends State<make> {
                     ListTile(
                         leading: Icon(Icons.local_library),
                         title: Text("Refer & Earn"),
-                        onTap: () {}),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Refer()));
+                        }),
                     ListTile(
                         leading: Icon(Icons.menu_book),
                         title: Text("Recipes"),

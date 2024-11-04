@@ -1,6 +1,5 @@
 import 'package:fish__app/deliveryreg.dart';
 import 'package:fish__app/payments.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class deladdress extends StatefulWidget {

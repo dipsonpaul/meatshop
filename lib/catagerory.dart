@@ -1,5 +1,5 @@
-import 'package:fish__app/maincat.dart';
-import 'package:fish__app/singleproduct.dart';
+import 'dart:async';
+import 'package:fish__app/singlepro2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,8 +14,10 @@ class cat extends StatefulWidget {
 
 class _catState extends State<cat> {
   @override
-  var gval = "";
-  double _sliderValue = 50.0;
+  var gval = "Low";
+  var _sliderValue = 50.0;
+  final StreamController<String> sortOptionController =
+      StreamController<String>();
   final List<Map<String, String>> products = [
     {
       'name': 'Catla',
@@ -90,7 +92,7 @@ class _catState extends State<cat> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => singeproduct()));
+                            builder: (context) => SingleProduct()));
                   },
                 ),
               ),
@@ -110,62 +112,59 @@ class _catState extends State<cat> {
                         icon: Icon(Icons.sort),
                         onPressed: () {
                           showModalBottomSheet(
-                              context: context,
-                              builder: ((context) {
-                                return Container(
-                                  height: 150,
-                                  width: 600,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          "Sort By",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                height: 200,
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Sort By",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Price -- Low to High"),
+                                        Radio(
+                                          value: "lowToHigh",
+                                          groupValue: gval,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              gval = val!;
+                                            });
+                                          },
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("     Price -- Low to High"),
-                                          Divider(
-                                            color: Colors.grey,
-                                            height: 15,
-                                            thickness: 15,
-                                          ),
-                                          Radio(
-                                              value: "value",
-                                              groupValue: gval,
-                                              onChanged: ((val) {
-                                                setState(() {
-                                                  gval = val!;
-                                                });
-                                              }))
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("     Price -- High to Low"),
-                                          Radio(
-                                              value: "value",
-                                              groupValue: gval,
-                                              onChanged: (val) {
-                                                setState(() {
-                                                  gval = val!;
-                                                });
-                                              })
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }));
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Price -- High to Low"),
+                                        Radio(
+                                          value: "highToLow",
+                                          groupValue: gval,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              gval = val!;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
                         },
                       ),
                       Text("SORT"),
@@ -177,50 +176,61 @@ class _catState extends State<cat> {
                         icon: Icon(Icons.filter_list),
                         onPressed: () {
                           showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return Container(
-                                  height: 150,
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text("Filter"),
-                                          ),
-                                          TextButton(
+                            context: context,
+                            builder: (context) {
+                              double localSliderValue = _sliderValue;
+
+                              return StatefulBuilder(
+                                builder: (BuildContext context,
+                                    StateSetter setModalState) {
+                                  return Container(
+                                    height: 200,
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("Filter"),
+                                            TextButton(
                                               onPressed: () {
-                                                Navigator.pop(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            cat()));
+                                                setState(() {
+                                                  _sliderValue =
+                                                      localSliderValue;
+                                                });
+                                                Navigator.pop(context);
                                               },
-                                              child: Text("Done")),
-                                        ],
-                                      ),
-                                      SfSlider(
-                                        min: 0.0,
-                                        max: 100.0,
-                                        value: _sliderValue,
-                                        interval: 20,
-                                        showTicks: true,
-                                        showLabels: true,
-                                        enableTooltip: true,
-                                        minorTicksPerInterval: 1,
-                                        onChanged: (dynamic newValue) {
-                                          setState(() {
-                                            _sliderValue = newValue;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                );
-                              });
+                                              child: Text("Done"),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        SfSlider(
+                                          min: 0,
+                                          max: 100,
+                                          value: localSliderValue,
+                                          interval: 20,
+                                          showTicks: true,
+                                          showLabels: true,
+                                          enableTooltip: true,
+                                          minorTicksPerInterval: 1,
+                                          stepSize: 5,
+                                          onChanged: (dynamic newValue) {
+                                            setModalState(() {
+                                              localSliderValue = newValue;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          );
                         },
                       ),
                       Text("FILTER"),
@@ -305,8 +315,3 @@ class back extends StatelessWidget {
     ));
   }
 }
-
-
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: ((context) => spage(name: tex[ind]))));
-                  

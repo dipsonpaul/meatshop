@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fish__app/forgot.dart';
 import 'package:fish__app/makingpage.dart';
 import 'package:fish__app/regsteration.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:motion_toast/motion_toast.dart';
+
+import 'apis/apiclass.dart';
 
 class sociallogin extends StatefulWidget {
   const sociallogin({super.key});
@@ -17,42 +18,12 @@ class sociallogin extends StatefulWidget {
 class _socialloginState extends State<sociallogin> {
   bool value11 = false;
   String staus = "";
-  String message = '';
+  String message1 = '';
+  String username = "";
+  String useridd = "";
+  String lastname = "";
   final TextEditingController usernamecontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
-  String Key =
-      "koFCpCMzm8hhn9ULj0BnUzZkpqM3rg9Mqdii3FwPRjBwZFQWriIJYgB5jjOhNIyasSl4RrmCFLW3tHDRtI39viQbYEP7nEkYvba2wstThYWjvkndZq0zaXJaWjuqeZo8vR3MMHa6OhBDKsFPmWOlIM4H1TgB1fudQndGKzUPg8YhAoaAoCxZ562zjbQdPO73ZkwyPV7iOIkyH11ZLAN42a5dgLH22Rs1VasEWBKdfkqMLPfDbLQpF9Ofqah4fqwc";
-
-  Future makepost() async {
-    final dio = Dio();
-    final url =
-        "https://meatshop.b4production.com/index.php?route=api/login&api_token=";
-    final formData = FormData.fromMap({
-      'email': usernamecontroller.text,
-      'password': passwordcontroller.text,
-      'key': Key
-    });
-    try {
-      final response = await dio.post(url, data: formData);
-      if (response.statusCode == 200) {
-        print(response);
-        final responseData = response.data;
-        final apiResponse = responseData.fromJson(responseData);
-
-        if (apiResponse.success == 'success') {
-          setState(() {
-            message = 'successfuly logged';
-          });
-        } else {
-          setState(() {
-            message = 'Request failed with response: ${responseData}';
-          });
-        }
-      }
-    } catch (e) {
-      print("errorrr");
-    }
-  }
 
   @override
   void initState() {
@@ -118,8 +89,8 @@ class _socialloginState extends State<sociallogin> {
                               hintText: "password",
                               suffixIcon: IconButton(
                                 icon: _isObsured
-                                    ? Icon(Icons.visibility)
-                                    : Icon(Icons.visibility_off),
+                                    ? Icon(Icons.visibility_off)
+                                    : Icon(Icons.visibility),
                                 onPressed: () {
                                   setState(() {
                                     _isObsured = !_isObsured;
@@ -128,7 +99,6 @@ class _socialloginState extends State<sociallogin> {
                               )),
                           controller: passwordcontroller,
                         ),
-                        Text(message),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -144,7 +114,7 @@ class _socialloginState extends State<sociallogin> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 30, bottom: 20),
+                          padding: const EdgeInsets.only(bottom: 10),
                           child: Row(
                             children: [
                               Checkbox(
@@ -164,10 +134,10 @@ class _socialloginState extends State<sociallogin> {
                             children: [
                               Expanded(
                                   child: ElevatedButton(
-                                      onPressed: makepost,
+                                      onPressed: log,
                                       style: const ButtonStyle(
                                           backgroundColor:
-                                              MaterialStatePropertyAll(
+                                              WidgetStatePropertyAll(
                                                   Colors.blue)),
                                       child: Text(
                                         "Login",
@@ -234,5 +204,100 @@ class _socialloginState extends State<sociallogin> {
         ),
       ),
     );
+  }
+
+  void log() async {
+    String Key =
+        "koFCpCMzm8hhn9ULj0BnUzZkpqM3rg9Mqdii3FwPRjBwZFQWriIJYgB5jjOhNIyasSl4RrmCFLW3tHDRtI39viQbYEP7nEkYvba2wstThYWjvkndZq0zaXJaWjuqeZo8vR3MMHa6OhBDKsFPmWOlIM4H1TgB1fudQndGKzUPg8YhAoaAoCxZ562zjbQdPO73ZkwyPV7iOIkyH11ZLAN42a5dgLH22Rs1VasEWBKdfkqMLPfDbLQpF9Ofqah4fqwc";
+    final mail = usernamecontroller.text;
+    final psd = passwordcontroller.text;
+    if (mail.isEmpty) {
+      showErrormessage("Enter Username");
+    } else if (psd.isEmpty) {
+      showErrormessage("Enter Password");
+    } else {
+      final formData =
+          FormData.fromMap({'email': mail, 'password': psd, 'key': Key});
+      final result = await Api().loginUserApi(formData);
+      if (result != null) {
+        if (result.status == "success") {
+          showsuccesmessage(result.message);
+          useridd = result.userId!;
+          message1 = result.message!;
+          username = result.firstname!;
+          lastname = result.lastname!;
+          saveval(result.userId!);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => make(
+                        initialIndex: 0,
+                      )));
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                      title: Text("WELCOME "),
+                      content: Container(
+                        height: 40,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text("USER ID : "),
+                                Text("$useridd"),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text("NAME : "),
+                                Text("$username"),
+                                Text("$lastname")
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => make(
+                                            initialIndex: 0,
+                                          )));
+                            },
+                            child: Container(
+                              child: Text("OK"),
+                            )),
+                      ]));
+        } else {
+          showErrormessage(result.message);
+        }
+      }
+    }
+  }
+
+  void showErrormessage(msg) {
+    print("Errorrrr");
+    MotionToast.error(
+            title: Text("ERROR"),
+            position: MotionToastPosition.top,
+            description: Text(msg))
+        .show(context);
+  }
+
+  void showsuccesmessage(msg) {
+    MotionToast.success(
+            description: Text(msg), position: MotionToastPosition.top)
+        .show(context);
+  }
+
+  void saveval(String useridd) async {
+    SharedPreferences share = await SharedPreferences.getInstance();
+    share.setString("usd", useridd);
+    print("ussserrrr$useridd");
   }
 }

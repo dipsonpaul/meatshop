@@ -1,10 +1,10 @@
 import 'package:fish__app/mycart.dart';
 import 'package:fish__app/orders.dart';
+import 'package:fish__app/refer.dart';
 import 'package:fish__app/seetingpages.dart';
 import 'package:fish__app/socialloginpage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fish__app/wallet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class sett extends StatelessWidget {
   sett({super.key});
@@ -130,13 +130,19 @@ class settinggggg extends StatelessWidget {
                   ListTile(
                     title: Text('Wallet'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Wallet()));
+                    },
                   ),
                   Divider(),
                   ListTile(
                     title: Text('Refer & Earn'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Refer()));
+                    },
                   ),
                   Divider(),
                   ListTile(

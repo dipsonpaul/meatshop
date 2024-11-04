@@ -1,6 +1,12 @@
+import 'dart:async';
+import 'dart:core';
+
 import 'package:dio/dio.dart';
-import 'package:fish__app/apis/son2.dart';
-import 'package:flutter/material.dart';
+import 'package:fish__app/models/dashbordresponse.dart';
+import 'package:fish__app/models/loginresponse.dart';
+import 'package:fish__app/models/registerresponse.dart';
+import 'package:fish__app/models/rescipee2.dart';
+import 'package:fish__app/models/rescipeeresponsee.dart';
 
 import 'apilinks.dart';
 
@@ -21,9 +27,7 @@ class Api {
 
   Future<reg?> registerUserApi(FormData formData) async {
     try {
-      final result = await dio.post(
-          "https://meatshop.b4production.com/index.php?route=api/register&api_token=",
-          data: formData);
+      final result = await dio.post(url.regiEnd, data: formData);
       print(result);
       return reg.fromJson((result.data));
     } on DioException catch (e) {
@@ -33,33 +37,52 @@ class Api {
     }
   }
 
-// Future <Loginmodal?> loginUserApi (FormData formData) async{
-//   try{
-//     final result = await dio.post(url.loginEnd,data: formData);
-//     return Loginmodal.fromJson(result.data);
-//   }
-//   on DioException catch(e){
-//     print(e);
-//   }
-//   catch(e){
-//     print(e);
-//   }
-// }
+  Future<log?> loginUserApi(FormData formData) async {
+    try {
+      final result = await dio.post(url.loginEnd, data: formData);
+      print("resultttt--->$result");
+      return log.fromJson(result.data);
+    } on DioException catch (e) {
+      print(e);
+    } catch (e) {
+      print(e);
+    }
+  }
 
-// Future <Homemodal?> homeUserApi (FormData formData) async{
-//   try {
-//     final result = await dio.post(url.homeEnd,data: formData);
-//     return Homemodal.fromJson(result.data);
-//   }
-//   on DioException catch(e){
-//     print(e);
-//   }
-// }
+  Future<dash?> homeUserApi(FormData formData) async {
+    try {
+      final result = await dio.post(url.homeEnd, data: formData);
+      print("resuit");
+      return dash.fromJson(result.data);
+    } on DioException catch (e) {
+      print(e);
+    }
+  }
 
-// Future <Productmodal?> productUserApi (FormData formData) async{
+  Future<recmodal?> recipesUserApi(FormData formdata) async {
+    try {
+      final result = await dio.post(url.recipEnd, data: formdata);
+      print("recipee->>>>$result");
+      return recmodal.fromJson(result.data);
+    } on DioException catch (e) {
+      print(e);
+    }
+  }
+
+    Future<rec2modal?> singlereciUserApi(FormData formdata) async {
+    try {
+      final result = await dio.post(url.singlerecipEnd, data: formdata);
+      return rec2modal.fromJson(result.data);
+    } on DioException catch (e) {
+      print(e);
+    }
+  }
+
+
+// Future <singleproduct {?> productUserApi (FormData formData) async{
 //   try{
 //     final result = await dio.post(url.productEnd,data: formData);
-//     return Productmodal.fromJson(result.data);
+//     return singleproduct.fromJson(result.data);
 //   }
 //   on DioException catch(e){
 //     print(e);
@@ -77,25 +100,6 @@ class Api {
 //   }
 // }
 
-// Future <Recipesmodal?> recipesUserApi (FormData formdata) async{
-//   try{
-//     final result = await dio.post(url.recipEnd,data: formdata);
-//     return Recipesmodal.fromJson(result.data);
-//   }
-//   on DioException catch(e){
-//     print(e);
-//   }
-// }
-
-// Future <Singlerecimodal?> singlereciUserApi (FormData formdata) async{
-//   try{
-//     final result = await dio.post(url.singlerecipEnd,data: formdata);
-//     return Singlerecimodal.fromJson(result.data);
-//   }
-//   on DioException catch(e){
-//     print(e);
-//   }
-// }
 
 // Future <Editpromdal?> EditproUserApi (FormData formdata) async{
 //   try{

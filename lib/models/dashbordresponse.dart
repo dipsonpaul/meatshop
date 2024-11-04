@@ -1,38 +1,11 @@
-// class Welcome {
-//     String status;
-//     String message;
-//     String userId;
-//     String firstname;
-//     String lastname;
-//     String email;
-//     String telephone;
-//     String promoCode;
-
-//     Welcome({
-//         required this.status,
-//         required this.message,
-//         required this.userId,
-//         required this.firstname,
-//         required this.lastname,
-//         required this.email,
-//         required this.telephone,
-//         required this.promoCode,
-//     });
-
-// }
-
-
-/////////////////////////////////////////////////////////
-               /// home///
-               
-class homies {
+class dash {
   String? status;
   String? notificationCount;
   Data? data;
 
-  homies({this.status, this.notificationCount, this.data});
+  dash({this.status, this.notificationCount, this.data});
 
-  homies.fromJson(Map<String, dynamic> json) {
+  dash.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     notificationCount = json['notification_count'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;

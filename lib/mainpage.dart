@@ -1,10 +1,12 @@
-import 'package:fish__app/catagerory.dart';
-import 'package:fish__app/maincat.dart';
+import 'package:dio/dio.dart';
+import 'package:fish__app/apis/apilinks.dart';
+import 'package:fish__app/models/dashbordresponse.dart';
+import 'package:fish__app/singlepro2.dart';
 import 'package:fish__app/tabpagesss.dart';
-import 'package:fish__app/makingpage.dart';
-import 'package:fish__app/singleproduct.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import 'apis/apiclass.dart';
 
 class FPage extends StatefulWidget {
   FPage({super.key});
@@ -14,7 +16,27 @@ class FPage extends StatefulWidget {
 }
 
 class _FPageState extends State<FPage> {
+  Future<void> getdata() async {
+    final formData = FormData.fromMap({'user_id': 5038, 'key': URL().Key});
+    final result = await Api().homeUserApi(formData);
+    setState(() {
+      cat.addAll(result!.data!.categories!);
+    });
+  }
+
+  Future<void> getdata2() async {
+    final formData = FormData.fromMap({'user_id': 5038, 'key': URL().Key});
+    final result = await Api().homeUserApi(formData);
+    print(NewArraivals);
+    setState(() {
+      araivals.addAll(result!.data!.newArraivals!);
+      print(araivals);
+    });
+  }
+
   int _currentIndex = 0;
+  List cat = [];
+  List araivals = [];
   final List<String> categoryText = [
     'Fresh Fish',
     'Seer Fish',
@@ -27,6 +49,34 @@ class _FPageState extends State<FPage> {
     'asset/image/fishcatecory2.jpeg',
     'asset/image/fishcatecory3.jpeg',
     'asset/image/fishcatecory4.jpeg',
+  ];
+
+  final arravialimg = [
+    'asset/image/catla.jpeg',
+    'asset/image/marckerel.jpeg',
+    'asset/image/pink.jpeg',
+    'asset/image/tilapia.jpeg',
+    'asset/image/catla.jpeg',
+    'asset/image/marckerel.jpeg',
+    'asset/image/pink.jpeg',
+    'asset/image/tilapia.jpeg',
+    'asset/image/catla.jpeg',
+    'asset/image/marckerel.jpeg',
+    'asset/image/pink.jpeg',
+  ];
+
+  final sprice2 = [
+    '₹209.00',
+    '₹309.00',
+    '229.00',
+    '₹209.00',
+    '₹209.00',
+    '₹309.00',
+    '229.00',
+    '₹209.00',
+    '₹209.00',
+    '₹309.00',
+    '229.00'
   ];
 
   final List<Map<String, String>> products = [
@@ -55,15 +105,20 @@ class _FPageState extends State<FPage> {
       'sprice': '₹209.00'
     },
   ];
+  final List<String> image = [
+    "asset/image/carosul1.png",
+    "asset/image/caraosl2.jpeg",
+    "asset/image/caraosl3.jpeg"
+  ];
+  @override
+  void initState() {
+    getdata();
+    getdata2();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<String> image = [
-      "asset/image/carosul1.png",
-      "asset/image/caraosl2.jpeg",
-      "asset/image/caraosl3.jpeg"
-    ];
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade200,
@@ -90,7 +145,6 @@ class _FPageState extends State<FPage> {
                         child: TextField(
                           decoration: InputDecoration(
                               prefixIcon: Icon(Icons.search),
-                              hintText: "Search for fish",
                               border: OutlineInputBorder(),
                               fillColor: Colors.white,
                               filled: true,
@@ -162,11 +216,9 @@ class _FPageState extends State<FPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => make(initialIndex: 1),
-                            ),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => tabcat()));
                         },
                         child: Text("View All"),
                       ),
@@ -177,14 +229,14 @@ class _FPageState extends State<FPage> {
                         crossAxisCount: 2,
                         crossAxisSpacing: 8.0,
                         mainAxisSpacing: 8.0),
-                    itemCount: categoryImg.length,
+                    itemCount: 4,
                     shrinkWrap: true,
                     padding: EdgeInsets.all(15),
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return CategoryCard(
                         imageUrl: categoryImg[index],
-                        label: categoryText[index],
+                        label: cat[index].name,
                       );
                     },
                   ),
@@ -220,13 +272,13 @@ class _FPageState extends State<FPage> {
                         crossAxisSpacing: 8.0,
                         mainAxisSpacing: 8.0,
                       ),
-                      itemCount: products.length,
+                      itemCount: 11,
                       itemBuilder: (context, index) {
                         return ProductCard(
-                          name: products[index]['name']!,
-                          price: products[index]['price']!,
-                          imageUrl: products[index]['imageUrl']!,
-                          sprice: products[index]['sprice']!,
+                          name: araivals[index].name,
+                          price: araivals[index].price,
+                          imageUrl: arravialimg[index],
+                          sprice: sprice2[index],
                         );
                       },
                     ),
@@ -234,7 +286,7 @@ class _FPageState extends State<FPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => singeproduct()));
+                              builder: (context) => SingleProduct()));
                     },
                   ),
                 ],
@@ -251,23 +303,29 @@ class CategoryCard extends StatelessWidget {
   final String imageUrl;
   final String label;
 
-  CategoryCard({required this.imageUrl, required this.label});
+  CategoryCard({required this.label, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
+    return InkWell(
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Column(
+          children: [
+            Expanded(child: Image.asset(imageUrl, fit: BoxFit.cover)),
+            SizedBox(height: 8.0),
+            Text(label, textAlign: TextAlign.center),
+          ],
+        ),
       ),
-      child: Column(
-        children: [
-          Expanded(child: Image.asset(imageUrl, fit: BoxFit.cover)),
-          SizedBox(height: 8.0),
-          Text(label, textAlign: TextAlign.center),
-        ],
-      ),
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => tabcat()));
+      },
     );
   }
 }
@@ -287,45 +345,51 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: Padding(
+    return InkWell(
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 255, 255, 255),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(child: Image.asset(imageUrl, fit: BoxFit.fill)),
+            ),
+            Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Image.asset(imageUrl, fit: BoxFit.cover),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      maxLines: 1,
+                      name,
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(price, style: TextStyle(fontSize: 13)),
+                      Text(
+                        sprice,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(price, style: TextStyle(fontSize: 13)),
-                    Text(
-                      sprice,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey,
-                        decoration: TextDecoration.lineThrough,
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SingleProduct()));
+      },
     );
   }
 }

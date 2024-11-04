@@ -1,7 +1,5 @@
-import 'package:fish__app/apis/son2.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fish__app/socialloginpage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:motion_toast/motion_toast.dart';
 
@@ -28,47 +26,6 @@ class _regpageState extends State<regpage> {
   String Key =
       "koFCpCMzm8hhn9ULj0BnUzZkpqM3rg9Mqdii3FwPRjBwZFQWriIJYgB5jjOhNIyasSl4RrmCFLW3tHDRtI39viQbYEP7nEkYvba2wstThYWjvkndZq0zaXJaWjuqeZo8vR3MMHa6OhBDKsFPmWOlIM4H1TgB1fudQndGKzUPg8YhAoaAoCxZ562zjbQdPO73ZkwyPV7iOIkyH11ZLAN42a5dgLH22Rs1VasEWBKdfkqMLPfDbLQpF9Ofqah4fqwc";
 
-  /*Future makepost() async {
-    final dio = Dio();
-    final url =
-        "https://meatshop.b4production.com/index.php?route=api/register&api_token=";
-    final formData = FormData.fromMap({
-      'firstname': firstnamecontroller.text,
-      'lastname': lastnamecontroller.text,
-      'email': emailcontroller.text,
-      'telephone': telephonecontroller.text,
-      'password': passwordcontroller1.text,
-      'type': type,
-      'referal_code': referal_code,
-      'key': Key
-    });
-    print(formData);
-    try {
-      print("helloooo");
-      final response = await dio.post(url, data: formData);
-      print(response.data);
-      if (response.statusCode == 200) {
-        print(response);
-        final responseData = response.data;
-        final apiResponse = reg.fromJson(responseData);
-
-        if (apiResponse.status == 'success') {
-          setState(() {
-            message = 'Resgister successful!';
-          });
-        } else {
-          setState(() {
-            message = 'Request failed with response: ${responseData}';
-          });
-        }
-      }
-    } catch (e) {
-      print(e);
-      setState(() {
-        message = "an error occrred $e";
-      });
-    }
-  }*/
 
   void initState() {
     super.initState();
@@ -274,19 +231,23 @@ class _regpageState extends State<regpage> {
   }
 
   void showSuccessmessage(msg) {
-    MotionToast.success(
-      title: const Text(
-        'Sucess',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      description: Text(msg),
-      position: MotionToastPosition.top,
-      barrierColor: Colors.black.withOpacity(0.3),
-      width: 300,
-      height: 80,
-      dismissable: true,
-    ).show(context);
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+                title: Text("REGESTERD SUCCESFULLY"),
+                content: Text(msg),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => sociallogin()));
+                      },
+                      child: Container(
+                        child: Text("BACK TO LOGIN"),
+                      )),
+                ]));
+
   }
 }

@@ -1,7 +1,5 @@
-import 'package:fish__app/refer.dart';
-import 'package:fish__app/socialloginpage.dart';
-import 'package:fish__app/wallet.dart';
 
+import 'package:fish__app/socialloginpage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Refer(),
+      home: sociallogin(),
     );
   }
 }

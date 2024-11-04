@@ -1,5 +1,7 @@
+import 'package:fish__app/singlepro2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class selectcut extends StatelessWidget {
   var mname = ["Curry Cut (with skin)", "Fry Cut", "Customize"];
@@ -14,6 +16,15 @@ class selectcut extends StatelessWidget {
   var wimgmeat = ["asset/image/cleared.jpeg", "asset/image/notcleared.jpeg"];
 
   selectcut({super.key});
+
+  Future<void> cutt(String selectedCut, BuildContext context) async {
+    SharedPreferences share = await SharedPreferences.getInstance();
+    await share.setString("selected_cut", selectedCut);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SingleProduct()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +41,7 @@ class selectcut extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15),
               child: Text(
                 "Meat",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -39,12 +50,12 @@ class selectcut extends StatelessWidget {
             ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: wname.length,
+                itemCount: mname.length,
                 itemBuilder: ((context, index) {
                   return ListTile(
-                    leading: Image.asset("${wimgmeat[index]}",
+                    leading: Image.asset("${imgmeat[index]}",
                         fit: BoxFit.cover, width: 60),
-                    title: Text("${wname[index]}"),
+                    title: Text("${mname[index]}"),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -53,11 +64,17 @@ class selectcut extends StatelessWidget {
                             style: TextStyle(color: Colors.green)),
                       ],
                     ),
+                    onTap: () {
+                      cutt(mname[index], context);
+                    },
                   );
                 })),
-            Text(
-              "Whole Fish",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Text(
+                "Whole Fish",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             ListView.builder(
                 shrinkWrap: true,
@@ -76,6 +93,9 @@ class selectcut extends StatelessWidget {
                             style: TextStyle(color: Colors.green)),
                       ],
                     ),
+                    onTap: () {
+                      cutt(wname[index], context);
+                    },
                   );
                 }))
           ],
